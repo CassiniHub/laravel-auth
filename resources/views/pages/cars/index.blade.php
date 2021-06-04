@@ -11,18 +11,18 @@
                 <li>
                     <h2>
                         {{ $car -> name }} -> {{ $car -> brand -> name }}
+                        <a href="{{ route('cars.destroy', $car -> id) }}">
+                            &#10060;
+                        </a>
+                        <a href="{{ route('cars.edit', $car -> id) }}">
+                            &#9997;
+                        </a>
                     </h2>
                     <ul>
                         @foreach ($car -> pilots as $pilot)
                             <li>
                                 <a href="{{ route('pilots.show', $pilot -> id) }}">
                                     {{ $pilot -> firstname }} {{ $pilot -> lastname }}
-                                </a>
-                                <a href="">
-                                    &#10060;
-                                </a>
-                                <a href="{{ route('cars.edit', $car -> id) }}">
-                                    &#9997;
                                 </a>
                             </li>
                         @endforeach

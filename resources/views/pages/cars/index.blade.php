@@ -11,9 +11,11 @@
                 <li>
                     <h2>
                         {{ $car -> name }} -> {{ $car -> brand -> name }}
-                        <a href="{{ route('cars.destroy', $car -> id) }}">
-                            &#10060;
-                        </a>
+                        <form action="{{ route('cars.destroy', $car -> id) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button>&#10060;</button>
+                        </form>
                         <a href="{{ route('cars.edit', $car -> id) }}">
                             &#9997;
                         </a>

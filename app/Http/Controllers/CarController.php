@@ -22,7 +22,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cars = Car::all();
+        $cars = Car::where('deleted', false) -> get();
 
         return view('pages.cars.index', compact(
             'cars'
@@ -109,10 +109,7 @@ class CarController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Car $car)
-    {
-        // dd($request -> all());
-
-        
+    {   
         $validated = $request -> validate([
             'name'  => 'required|string|min:3',
             'model' => 'required|string|min:3',
@@ -145,6 +142,9 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        dd('Hello');
+        $car -> deleted = true;
+        $car -> save();
+
+        return redirect() -> route('cars.index');
     }
 }

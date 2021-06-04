@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
+    public function __construct()
+    {
+        $this -> middleware('auth') -> except(['index']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -86,7 +91,14 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        //
+        $brands = Brand::all();
+        $pilots = Pilot::all();
+
+        return view('pages.cars.edit', compact(
+            'car',
+            'pilots',
+            'brands'
+        ));
     }
 
     /**
@@ -98,7 +110,31 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        //
+        // dd($request -> all());
+
+        
+        $validated = $request -> validate([
+            'name'  => 'required|string|min:3',
+            'model' => 'required|string|min:3',
+            'kw'    => 'required|integer|min:200|max:2000',
+        ]);
+        
+        $car -> update($validated);
+        
+        // Take the entire object
+        // $brand = Brand::findOrFail($request -> brand_id);
+        // $car -> brand() -> associate($brand);
+
+        // Take only object id
+        $car -> brand() -> associate($request -> brand_id);
+        $car -> save();
+        
+        // sync() -> Change the selection not considering the one before
+        // attach() -> sum the old selection to the new one
+        $car -> pilots() -> sync($request -> pilots_id);
+        $car -> save();
+
+        return redirect() -> route('cars.index');
     }
 
     /**

@@ -18,6 +18,12 @@
                                 <a href="{{ route('pilots.show', $pilot -> id) }}">
                                     {{ $pilot -> firstname }} {{ $pilot -> lastname }}
                                 </a>
+                                <a href="">
+                                    &#10060;
+                                </a>
+                                <a href="{{ route('cars.edit', $car -> id) }}">
+                                    &#9997;
+                                </a>
                             </li>
                         @endforeach
                     </ul>
